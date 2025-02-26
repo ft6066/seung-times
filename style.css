@@ -102,6 +102,9 @@
   .menus {
     display: block;
   }
+  .fa-solid {
+    display: none;
+  }
 }
 
 #input-news,
