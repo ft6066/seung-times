@@ -38,7 +38,7 @@ function render() {
         src="${
           news.urlToImage ||
           "https://thumbs.dreamstime.com/b/image-not-available-icon-vector-set-white-background-eps-338269360.jpg"
-        }"
+        }" onerror="this.src='https://thumbs.dreamstime.com/b/image-not-available-icon-vector-set-white-background-eps-338269360.jpg'"
       />
     </div>
     <div class="col-lg-8">
