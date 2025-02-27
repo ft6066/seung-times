@@ -2,12 +2,16 @@ const API_KEY = `c80114dd430c49e695b9e043cf00f498`;
 let newsList = [];
 let searchBtn = document.getElementById("search-button");
 let searchOn = false;
+const menus = document.querySelectorAll(".menus button");
 
 searchBtn.addEventListener("click", inputSwitch);
+menus.forEach((menu) =>
+  menu.addEventListener("click", (event) => getNewsByCategory(event))
+);
 
 const getLatestName = async () => {
   const url = new URL(
-    `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr`
+    `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
   );
   const response = await fetch(url);
   const data = await response.json();
@@ -17,6 +21,31 @@ const getLatestName = async () => {
   render();
 };
 getLatestName();
+
+const getNewsByCategory = async (event) => {
+  const category = event.target.textContent.toLowerCase();
+  const url = new URL(
+    `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${API_KEY}`
+  );
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log("ddd", data);
+  newsList = data.articles;
+  render();
+};
+
+const getNewsByKeyword = async () => {
+  const keyword = document.getElementById("input-news").value;
+  console.log("keyword", keyword);
+  const url = new URL(
+    `https://newsapi.org/v2/top-headlines?country=us&q=${keyword}&apiKey=${API_KEY}`
+  );
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log("data : ", data);
+  newsList = data.articles;
+  render();
+};
 
 /* Set the width of the side navigation to 250px */
 function openNav() {
@@ -72,3 +101,7 @@ function inputSwitch() {
     searchOn = false;
   }
 }
+
+//1. 버튼들에 클릭 이벤트를 줘야함
+//2. 카테고리별 뉴스 가져오기
+//3. 그 뉴스를 보여주기
