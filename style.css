@@ -42,7 +42,7 @@
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #111; /* Black*/
+  background-color: rgb(185, 255, 205); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -62,7 +62,7 @@
 
 /* When you mouse over the navigation links, change their color */
 .side-menu button:hover {
-  color: #f1f1f1;
+  color: #000000;
 }
 
 /* Position and style the close button (top right corner) */
@@ -74,8 +74,13 @@
   margin-left: 50px;
 }
 
-.fa-solid .fa-bars {
+.fa-solid {
   cursor: pointer;
+  width: 20px;
+}
+
+.fa-solid:hover {
+  content: url(/images/bars-solid.svg);
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -125,12 +130,16 @@
   width: 20px;
 }
 
+#search-button img:hover {
+  content: url("/images/magnifying-glass-solid.svg");
+}
+
 #input-news {
   border: 1px solid #d1d1d1;
 }
 
 #go-button {
-  background-color: rgb(197, 197, 251);
+  background-color: rgb(115, 219, 145);
   border-radius: 5px;
   font-size: 18px;
 }
@@ -141,4 +150,8 @@
 
 .news-img-size {
   width: 70em;
+}
+
+#input-news {
+  outline: none;
 }

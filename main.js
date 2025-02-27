@@ -3,11 +3,18 @@ let newsList = [];
 let searchBtn = document.getElementById("search-button");
 let searchOn = false;
 const menus = document.querySelectorAll(".menus button");
+let input = document.getElementById("input-news");
 
 searchBtn.addEventListener("click", inputSwitch);
 menus.forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByCategory(event))
 );
+input.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("go-button").click();
+  }
+});
 
 const getLatestName = async () => {
   const url = new URL(
@@ -35,7 +42,7 @@ const getNewsByCategory = async (event) => {
 };
 
 const getNewsByKeyword = async () => {
-  const keyword = document.getElementById("input-news").value;
+  const keyword = input.value;
   console.log("keyword", keyword);
   const url = new URL(
     `https://newsapi.org/v2/top-headlines?country=us&q=${keyword}&apiKey=${API_KEY}`
@@ -45,6 +52,7 @@ const getNewsByKeyword = async () => {
   console.log("data : ", data);
   newsList = data.articles;
   render();
+  input.value = "";
 };
 
 /* Set the width of the side navigation to 250px */
