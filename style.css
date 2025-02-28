@@ -62,7 +62,7 @@
 
 /* When you mouse over the navigation links, change their color */
 .side-menu button:hover {
-  color: #000000;
+  color: black;
 }
 
 /* Position and style the close button (top right corner) */
@@ -80,7 +80,7 @@
 }
 
 .fa-solid:hover {
-  content: url(/images/bars-solid.svg);
+  content: url(/images/bars-solid2.svg);
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -131,7 +131,7 @@
 }
 
 #search-button img:hover {
-  content: url("/images/magnifying-glass-solid.svg");
+  content: url("/images/magnifying-glass-solid2.svg");
 }
 
 #input-news {
@@ -158,4 +158,8 @@
 
 .alert-danger {
   text-align: center;
+}
+
+.col-lg-8:hover {
+  color: rgb(115, 219, 145);
 }
