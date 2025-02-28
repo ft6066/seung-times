@@ -20,7 +20,7 @@ input.addEventListener("keypress", (event) => {
 });
 
 let url = new URL(
-  `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
+  `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
 );
 
 const getNews = async () => {
@@ -43,27 +43,27 @@ const getNews = async () => {
 
 const getLatestName = async () => {
   url = new URL(
-    `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
+    `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
   );
-  getNews();
+  await getNews();
 };
 getLatestName();
 
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
   url = new URL(
-    `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${API_KEY}`
+    `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&category=${category}&apiKey=${API_KEY}`
   );
-  getNews();
+  await getNews();
 };
 
 const getNewsByKeyword = async () => {
   const keyword = input.value;
   console.log("keyword", keyword);
   url = new URL(
-    `https://newsapi.org/v2/top-headlines?country=us&q=${keyword}&apiKey=${API_KEY}`
+    `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&q=${keyword}&apiKey=${API_KEY}`
   );
-  getNews();
+  await getNews();
   input.value = "";
 };
 
@@ -128,3 +128,6 @@ function inputSwitch() {
     searchOn = false;
   }
 }
+
+// noona API : https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?
+// news API : https://newsapi.org/v2/top-headlines?
