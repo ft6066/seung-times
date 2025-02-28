@@ -3,12 +3,15 @@ let newsList = [];
 let searchBtn = document.getElementById("search-button");
 let searchOn = false;
 const menus = document.querySelectorAll(".menus button");
+const sideMenus = document.querySelectorAll(".side-menu-list button");
 let input = document.getElementById("input-news");
 
 searchBtn.addEventListener("click", inputSwitch);
-menus.forEach((menu) =>
+
+[...menus, ...sideMenus].forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByCategory(event))
 );
+
 input.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -16,42 +19,51 @@ input.addEventListener("keypress", (event) => {
   }
 });
 
+let url = new URL(
+  `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
+);
+
+const getNews = async () => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (response.status === 200) {
+      if (data.articles.length === 0) {
+        throw new Error("No matches for your search.");
+      }
+      newsList = data.articles;
+      render();
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    errorRender(error.message);
+  }
+};
+
 const getLatestName = async () => {
-  const url = new URL(
+  url = new URL(
     `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
   );
-  const response = await fetch(url);
-  const data = await response.json();
-  console.log(response);
-  newsList = data.articles;
-  console.log("data:", newsList);
-  render();
+  getNews();
 };
 getLatestName();
 
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
-  const url = new URL(
+  url = new URL(
     `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${API_KEY}`
   );
-  const response = await fetch(url);
-  const data = await response.json();
-  console.log("ddd", data);
-  newsList = data.articles;
-  render();
+  getNews();
 };
 
 const getNewsByKeyword = async () => {
   const keyword = input.value;
   console.log("keyword", keyword);
-  const url = new URL(
+  url = new URL(
     `https://newsapi.org/v2/top-headlines?country=us&q=${keyword}&apiKey=${API_KEY}`
   );
-  const response = await fetch(url);
-  const data = await response.json();
-  console.log("data : ", data);
-  newsList = data.articles;
-  render();
+  getNews();
   input.value = "";
 };
 
@@ -98,6 +110,13 @@ function render() {
   document.getElementById("news-board").innerHTML = newsHTML;
 }
 
+const errorRender = (errorMessage) => {
+  const errorHTML = `<div class="alert alert-danger" role="alert">
+  ${errorMessage} 
+</div>`;
+  document.getElementById("news-board").innerHTML = errorHTML;
+};
+
 function inputSwitch() {
   if (searchOn === false) {
     document.getElementById("input-news").style.visibility = "visible";
@@ -109,7 +128,3 @@ function inputSwitch() {
     searchOn = false;
   }
 }
-
-//1. 버튼들에 클릭 이벤트를 줘야함
-//2. 카테고리별 뉴스 가져오기
-//3. 그 뉴스를 보여주기
