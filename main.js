@@ -11,6 +11,9 @@ searchBtn.addEventListener("click", inputSwitch);
 [...menus, ...sideMenus].forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByCategory(event))
 );
+sideMenus.forEach((menu) => {
+  menu.addEventListener("click", () => closeNav());
+});
 
 input.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
