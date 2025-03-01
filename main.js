@@ -65,6 +65,7 @@ const getNewsByCategory = async (event) => {
   url = new URL(
     `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&category=${category}&apiKey=${API_KEY}`
   );
+  page = 1;
   await getNews();
 };
 
