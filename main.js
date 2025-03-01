@@ -23,8 +23,16 @@ let url = new URL(
   `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
 );
 
+let totalResults = 0;
+let page = 1;
+const pageSize = 10;
+const groupSize = 5;
+
 const getNews = async () => {
   try {
+    url.searchParams.set("page", page); //=> &page = page
+    url.searchParams.set("pageSize", pageSize);
+
     const response = await fetch(url);
     const data = await response.json();
     if (response.status === 200) {
@@ -32,7 +40,9 @@ const getNews = async () => {
         throw new Error("No matches for your search.");
       }
       newsList = data.articles;
+      totalResults = data.totalResults;
       render();
+      paginationRender();
     } else {
       throw new Error(data.message);
     }
@@ -42,6 +52,7 @@ const getNews = async () => {
 };
 
 const getLatestName = async () => {
+  page = 1;
   url = new URL(
     `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
   );
@@ -128,6 +139,66 @@ function inputSwitch() {
     searchOn = false;
   }
 }
+
+const paginationRender = () => {
+  //totalResults
+  //page
+  //pageSize
+  //groupSize
+  //totalPages
+  const totalPages = Math.ceil(totalResults / pageSize);
+  //pageGroup
+  const pageGroup = Math.ceil(page / groupSize);
+  //lastPage
+  let lastPage = pageGroup * groupSize;
+  //마지막 페이지 그룹이 그룹사이즈보다 작다? lastPage = totalPage
+  if (lastPage > totalPages) {
+    lastPage = totalPages;
+  }
+  //firstPage
+  const firstPage =
+    lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
+
+  let paginationHTML = ``;
+
+  paginationHTML += `<li class="page-item" onclick="previousPage()"><a class="page-link">&lt</a></li>`;
+
+  for (let i = firstPage; i <= lastPage; i++) {
+    paginationHTML += `<li class="page-item ${
+      i == page ? "active" : ""
+    }"><a class="page-link" onclick="moveToPage(${i})">${i}</a></li>`;
+  }
+
+  paginationHTML += `<li class="page-item" onclick="nextPage(${lastPage})"><a class="page-link">&gt</a></li>`;
+
+  document.querySelector(".pagination").innerHTML = paginationHTML;
+
+  //   <nav aria-label="Page navigation example">
+  //   <ul class="pagination">
+  //     <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  //     <li class="page-item"><a class="page-link" href="#">1</a></li>
+  //     <li class="page-item"><a class="page-link" href="#">2</a></li>
+  //     <li class="page-item"><a class="page-link" href="#">3</a></li>
+  //     <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  //   </ul>
+  // </nav>
+};
+
+const moveToPage = async (pageNum) => {
+  console.log("move", pageNum);
+  page = pageNum;
+  await getNews();
+};
+
+const previousPage = async () => {
+  page - 1 > 0 ? page-- : page;
+  await getNews();
+};
+
+const nextPage = async (lastPage) => {
+  page + 1 <= lastPage ? page++ : page;
+  await getNews();
+};
 
 // noona API : https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?
 // news API : https://newsapi.org/v2/top-headlines?

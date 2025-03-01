@@ -163,3 +163,17 @@
 .col-lg-8:hover {
   color: rgb(115, 219, 145);
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  --bs-pagination-color: rgb(115, 219, 145);
+  --bs-pagination-hover-color: rgb(115, 219, 145);
+}
+
+.page-item.active {
+  z-index: 0;
+  --bs-pagination-active-bg: rgb(115, 219, 145);
+  --bs-pagination-active-border-color: rgb(115, 219, 145);
+}
