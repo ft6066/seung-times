@@ -177,3 +177,7 @@
   --bs-pagination-active-bg: rgb(115, 219, 145);
   --bs-pagination-active-border-color: rgb(115, 219, 145);
 }
+
+.page-item.disabled {
+  visibility: hidden;
+}

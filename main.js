@@ -159,9 +159,13 @@ const paginationRender = () => {
   const firstPage =
     lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
 
-  let paginationHTML = ``;
+  let paginationHTML = `<li class="page-item ${
+    page === 1 ? "disabled" : ""
+  }" onclick="moveToPage(${1})"><a class="page-link">&lt&lt</a></li>`;
 
-  paginationHTML += `<li class="page-item" onclick="previousPage()"><a class="page-link">&lt</a></li>`;
+  paginationHTML += `<li class="page-item ${
+    page === 1 ? "disabled" : ""
+  }" onclick="moveToPage(${page - 1})"><a class="page-link">&lt</a></li>`;
 
   for (let i = firstPage; i <= lastPage; i++) {
     paginationHTML += `<li class="page-item ${
@@ -169,34 +173,20 @@ const paginationRender = () => {
     }"><a class="page-link" onclick="moveToPage(${i})">${i}</a></li>`;
   }
 
-  paginationHTML += `<li class="page-item" onclick="nextPage(${lastPage})"><a class="page-link">&gt</a></li>`;
+  paginationHTML += `<li class="page-item ${
+    page === lastPage ? "disabled" : ""
+  }" onclick="moveToPage(${page + 1})"><a class="page-link">&gt</a></li>`;
+
+  paginationHTML += `<li class="page-item ${
+    page === lastPage ? "disabled" : ""
+  }" onclick="moveToPage(${lastPage})"><a class="page-link">&gt&gt</a></li>`;
 
   document.querySelector(".pagination").innerHTML = paginationHTML;
-
-  //   <nav aria-label="Page navigation example">
-  //   <ul class="pagination">
-  //     <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-  //     <li class="page-item"><a class="page-link" href="#">1</a></li>
-  //     <li class="page-item"><a class="page-link" href="#">2</a></li>
-  //     <li class="page-item"><a class="page-link" href="#">3</a></li>
-  //     <li class="page-item"><a class="page-link" href="#">Next</a></li>
-  //   </ul>
-  // </nav>
 };
 
 const moveToPage = async (pageNum) => {
   console.log("move", pageNum);
   page = pageNum;
-  await getNews();
-};
-
-const previousPage = async () => {
-  page - 1 > 0 ? page-- : page;
-  await getNews();
-};
-
-const nextPage = async (lastPage) => {
-  page + 1 <= lastPage ? page++ : page;
   await getNews();
 };
 
